@@ -8,4 +8,10 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+ <ItemGroup>
+    <Compile Include="..\code\Arrays.cs" />
+
+  </ItemGroup>
+
+
 </Project>

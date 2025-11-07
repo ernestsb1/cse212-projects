@@ -1,18 +1,16 @@
-﻿Console.WriteLine("\n======================\nDivisors\n======================");
-Divisors.Run();
+﻿using System;
+using System.Collections.Generic;
 
-Console.WriteLine("\n======================\nArray Selector\n======================");
-ArraySelector.Run();
+public class Program
+{
+    static void Main(string[] args)
+    {
+        // Test Arrays.MultiplesOf and Arrays.RotateListRight
+        double[] result = Arrays.MultiplesOf(7, 5);
+        Console.WriteLine("MultiplesOf(7,5): " + string.Join(", ", result));
 
-// Uncomment when you are ready to run this
-// Console.WriteLine("\n======================\nAlgorithms\n======================");
-// Algorithms.Run();
-
-
-
-// Uncomment and run as you get to the solution part
-// Console.WriteLine("\n======================\nDivisors Solution\n======================");
-// DivisorsSolution.Run();
-//
-// Console.WriteLine("\n======================\nArray Selector Solution\n======================");
-// ArraySelectorSolution.Run();
+        List<int> list = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        Arrays.RotateListRight(list, 3);
+        Console.WriteLine("RotateListRight(3): " + string.Join(", ", list));
+    }
+}
