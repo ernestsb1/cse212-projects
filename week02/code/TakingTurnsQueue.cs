@@ -7,11 +7,15 @@
 /// less than they will stay in the queue forever.  If a person is out of turns then they will 
 /// not be added back into the queue.
 /// </summary>
+
+using System;
+using System.Collections.Generic;
+
 public class TakingTurnsQueue
 {
-    private readonly PersonQueue _people = new();
+    private readonly Queue<Person> _people = new();
 
-    public int Length => _people.Length;
+    public int Length => _people.Count;
 
     /// <summary>
     /// Add new people to the queue with a name and number of turns
@@ -33,25 +37,26 @@ public class TakingTurnsQueue
     /// </summary>
     public Person GetNextPerson()
     {
-        if (_people.IsEmpty())
+        if (_people.Count == 0)
         {
             throw new InvalidOperationException("No one in the queue.");
         }
-        else
+
+        Person person = _people.Dequeue();
+
+        // Infinite turns (0 or negative) → re-enqueue without changing turns
+        if (person.Turns <= 0)
         {
-            Person person = _people.Dequeue();
-            if (person.Turns > 1)
-            {
-                person.Turns -= 1;
-                _people.Enqueue(person);
-            }
-
-            return person;
+            _people.Enqueue(person);
         }
-    }
+        // More than 1 turn → decrement and re-enqueue
+        else if (person.Turns > 1)
+        {
+            person.Turns--;
+            _people.Enqueue(person);
+        }
+        // If turns == 1 → do not re-enqueue, they are done
 
-    public override string ToString()
-    {
-        return _people.ToString();
+        return person;
     }
 }

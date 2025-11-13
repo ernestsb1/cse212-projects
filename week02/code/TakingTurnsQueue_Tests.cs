@@ -51,7 +51,7 @@ public class TakingTurnsQueueTests
         var sue = new Person("Sue", 3);
         var george = new Person("George", 3);
 
-        Person[] expectedResult = [bob, tim, sue, bob, tim, sue, tim, george, sue, tim, george, tim, george];
+        Person[] expectedResult = new Person[] { bob, tim, sue, bob, tim, sue, tim, george, sue, tim, george, tim, george };
 
         var players = new TakingTurnsQueue();
         players.AddPerson(bob.Name, bob.Turns);
