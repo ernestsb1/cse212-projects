@@ -1,15 +1,24 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-// TODO Problem 2 - Write and run test cases and fix the code to match requirements.
+
+// W02 - PriorityQueue Tests
+// Test cases + documented test results (PROBLEM 2)
 
 [TestClass]
 public class PriorityQueueTests
 {
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
-    public void TestPriorityQueue_1()
+    // Scenario: Enqueue three items Low(1), Medium(5), High(10)
+    // Expected Result: Dequeue returns High → Medium → Low
+    //
+    // Defect(s) Found:
+    // 1. Original code searched for LOWEST priority instead of HIGHEST.
+    //    (Used < instead of > when comparing priorities.)
+    // 2. Because of this, items came out reversed or incorrect.
+    //
+    // Test Result After Fix:
+    // ✔ Highest priority is removed first exactly as expected.
+    public void TestPriorityQueue_HighPriorityFirst()
     {
         var pq = new PriorityQueue();
         pq.Enqueue("Low", 1);
@@ -27,10 +36,16 @@ public class PriorityQueueTests
 
 
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
-    public void TestPriorityQueue_2()
+    // Scenario: Enqueue A(5), B(5), C(5) — same priority
+    // Expected Result: Dequeue preserves insertion order → A, B, C
+    //
+    // Defect(s) Found:
+    // 1. Original Dequeue only looked for > priority.
+    //    When priorities were equal, it *skipped* later items, breaking FIFO.
+    //
+    // Test Result After Fix:
+    // ✔ Equal-priority items come out in FIFO order.
+    public void TestPriorityQueue_EqualPriorityFIFO()
     {
         var pq = new PriorityQueue();
         pq.Enqueue("A", 5);
@@ -46,5 +61,26 @@ public class PriorityQueueTests
         Assert.AreEqual("C", third);
     }
 
-    // Add more test cases as needed below.
+
+    [TestMethod]
+    // Scenario: Calling Dequeue() on an empty queue
+    // Expected Result: InvalidOperationException with message:
+    //   "The queue is empty."
+    //
+    // Defect(s) Found:
+    // 1. Original code did not properly guard against empty queue.
+    //
+    // Test Result After Fix:
+    // ✔ Correct exception thrown with correct message.
+    public void TestPriorityQueue_EmptyQueue()
+    {
+        var pq = new PriorityQueue();
+
+        var ex = Assert.ThrowsException<InvalidOperationException>(() =>
+        {
+            pq.Dequeue();
+        });
+
+        Assert.AreEqual("The queue is empty.", ex.Message);
+    }
 }
